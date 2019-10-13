@@ -30,13 +30,13 @@ def test_network(base,network,normalize = True):
     labels  = base[1]
     results = network.predict(normalized_values)
     test_loss = None
-    if(normalize):  
+    if(normalize):
         unnormalized_results = unnormalize_6_rows((Answers_min_values,Answers_max_values),results)
         test_loss = calculateErrorPerNeuron(unnormalized_results,labels)
     else:
         test_loss = calculateErrorPerNeuron(results,labels)
     return test_loss
-    
+
 def randomize(dataset, labels):
     # Generate the permutation index array.
     permutation = np.random.permutation(dataset.shape[0])
@@ -49,7 +49,7 @@ def secondsToStr(t):
     return "%d:%02d:%02d.%03d" % \
         functools.reduce(lambda ll,b : divmod(ll[0],b) + ll[1:],
             [(t*1000,),1000,60,60])
-        
+
 def updateBar(progress,toolbar_width,loss,start=0):
     slices = int(float(progress)/toolbar_width * 50)
     write = "[%s%s]" % ("#"*slices," " * (50-slices))
@@ -71,9 +71,9 @@ def save_weights(model,name):
     directory = os.path.split(file_)[0]
     if not os.path.exists(directory):
        os.makedirs(directory)
-    model.save_weights(str(name)+".h5") 
+    model.save_weights(str(name)+".h5")
 
-def trysave(test_loss,network,epoch,best_loss,printing=False):        
+def trysave(test_loss,network,epoch,best_loss,printing=False):
     targetloss = test_loss[2]
     rLoss = best_loss
     if(targetloss > 0. and best_loss > targetloss):
@@ -84,4 +84,4 @@ def trysave(test_loss,network,epoch,best_loss,printing=False):
     elif(printing):
         print("Not saving, Old Value: " + str(best_loss) +" & New value: " +str(targetloss) + " lost : "+str(abs(targetloss-best_loss)) )
     return rLoss
-    
+
